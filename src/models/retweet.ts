@@ -19,3 +19,14 @@ export const getPostRetweetedCount = async (postId: number): Promise<number> => 
 
   return count;
 }
+
+export const hasUserRetweetedPost = async (userId:number, postId:number): Promise<boolean> => {
+  const prisma = databaseManager.getInstance();
+  const retweet = await prisma.retweet.findFirst({
+    where: {
+      userId,
+      postId,
+    },
+  })
+  return retweet !== null;
+}
