@@ -12,6 +12,9 @@ retweetRouter.post("/:postId/retweets", ensureAuthUser, async (req, res, next) =
     // This must not happen.
     return next(new Error("Invalid error: currentUserId is undefined."));
   }
-  await createRetweet({userId: currentUserId, postId: Number(postId)});
+
+  console.log(currentUserId, postId);
+
+  await createRetweet({ userId: currentUserId, postId: Number(postId) });
   res.redirect(`/posts/${postId}`);
 })

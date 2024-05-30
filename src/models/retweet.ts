@@ -5,7 +5,7 @@ type RetweetData = Pick<Retweet, "userId" | "postId">;
 
 export const createRetweet = async (retweetData: RetweetData): Promise<Retweet> => {
   const prisma = databaseManager.getInstance();
-  const retweet = await prisma.like.create({
+  const retweet = await prisma.retweet.create({
     data: retweetData
   })
   return retweet;
