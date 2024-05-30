@@ -10,3 +10,12 @@ export const createRetweet = async (retweetData: RetweetData): Promise<Retweet> 
   })
   return retweet;
 }
+
+export const countRetweets = async (postId: number): Promise<number> => {
+  const prisma = databaseManager.getInstance();
+  const count = await prisma.retweet.count({
+    where: {postId},
+  })
+
+  return count;
+}
