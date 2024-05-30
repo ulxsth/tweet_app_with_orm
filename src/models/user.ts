@@ -6,8 +6,7 @@ type UserProfileData = Partial<Pick<User, "name" | "email" | "imageName">>;
 type UserData = Pick<User, "name" | "email" | "password">;
 
 export type PostWithRetweetInfo = {
-  user: UserWithoutPassword;
-  createdAt: Date;
+  user: UserWithoutPassword | null;
   post: PostWithUser;
 };
 export type UserWithoutPassword = Omit<User, "password">;
@@ -140,7 +139,6 @@ export const getUserRetweetedPosts = async (
           ...selectUserColumnsWithoutPassword,
         },
       },
-      createdAt: true,
       post: {
         select: {
           id: true,
