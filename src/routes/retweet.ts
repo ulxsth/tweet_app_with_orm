@@ -26,6 +26,7 @@ retweetRouter.delete("/:postId/retweets", ensureAuthUser, async (req, res, next)
   if (currentUserId === undefined) {
     return next(new Error("Invalid error: currentUserId is undefined."))
   }
-  
-  await deleteRetweet({userId: currentUserId, postId: Number(postId)})
+
+  await deleteRetweet({ userId: currentUserId, postId: Number(postId) })
+  res.redirect(`posts/${postId}`)
 })
