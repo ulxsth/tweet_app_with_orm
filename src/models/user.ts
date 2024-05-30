@@ -5,11 +5,11 @@ import {databaseManager} from "@/db/index";
 type UserProfileData = Partial<Pick<User, "name" | "email" | "imageName">>;
 type UserData = Pick<User, "name" | "email" | "password">;
 
-export type RetweetedPost = {
-  user: UserWithoutPassword,
-  createdAt: Date,
-  post: PostWithUser
-}
+export type PostWithRetweetInfo = {
+  user: UserWithoutPassword;
+  createdAt: Date;
+  post: PostWithUser;
+};
 export type UserWithoutPassword = Omit<User, "password">;
 
 export const selectUserColumnsWithoutPassword = {
@@ -43,7 +43,9 @@ export const updateUserProfile = async (
   return user;
 };
 
-export const getUserWithPosts = async (userId: number): Promise<
+export const getUserWithPosts = async (
+  userId: number
+): Promise<
   | (UserWithoutPassword & {
       posts: PostWithUser[];
     })
@@ -124,7 +126,9 @@ export const getUserLikedPosts = async (
   return user;
 };
 
-export const getUserRetweetedPosts = async (userId: number): Promise<RetweetedPost[] | []> => {
+export const getUserRetweetedPosts = async (
+  userId: number
+): Promise<PostWithRetweetInfo[] | []> => {
   const prisma = databaseManager.getInstance();
   const posts = await prisma.retweet.findMany({
     where: {
@@ -155,7 +159,7 @@ export const getUserRetweetedPosts = async (userId: number): Promise<RetweetedPo
   });
 
   return posts;
-}
+};
 
 export const getAllUsers = async (): Promise<UserWithoutPassword[]> => {
   const prisma = databaseManager.getInstance();
