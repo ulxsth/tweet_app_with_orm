@@ -41,7 +41,7 @@
         </form>
       <% } else { %>
         <!-- TODO: un-retweet 実装 -->
-        <form action="#" method="post" data-test="form-retweet">
+        <form action="/posts/<%= post.id %>/retweets?_method=DELETE" method="post" data-test="form-retweet">
           <button type="submit" data-test="submit-like" class="like-btn unretweet">
             <span class="material-icons" data-test="retweet-icon">swap_horiz</span>
           </button>
