@@ -33,6 +33,12 @@
           </form>
         </div>
       <% } %>
+      <!-- TODO: hasRetweets 出し分け -->
+      <form action="/posts/<%= post.id %>/retweets" method="post" data-test="form-retweet">
+        <button type="submit" data-test="submit-like" class="like-btn retweet">
+          <span class="material-icons" data-test="favorite-icon">swap_horiz</span>
+        </button>
+      </form>
     </div>
   </div>
 </div>
