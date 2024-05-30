@@ -75,8 +75,8 @@ userRouter.get("/:userId", ensureAuthUser, async (req, res, next) => {
   const posts = [...(userPosts || []), ...(retweetedPosts || [])]
 
     res.render("users/show", {
-    user,
-    posts: posts,
+    retweetBy: user,
+    ...posts,
   });
 });
 
