@@ -33,12 +33,20 @@
           </form>
         </div>
       <% } %>
-      <!-- TODO: hasRetweets 出し分け -->
-      <form action="/posts/<%= post.id %>/retweets" method="post" data-test="form-retweet">
-        <button type="submit" data-test="submit-like" class="like-btn retweet">
-          <span class="material-icons" data-test="favorite-icon">swap_horiz</span>
-        </button>
-      </form>
+      <% if (!hasRetweeted) { %>
+        <form action="/posts/<%= post.id %>/retweets" method="post" data-test="form-retweet">
+          <button type="submit" data-test="submit-like" class="like-btn retweet">
+            <span class="material-icons" data-test="retweet-icon">swap_horiz</span>
+          </button>
+        </form>
+      <% } else { %>
+        <!-- TODO: un-retweet 実装 -->
+        <form action="#" method="post" data-test="form-retweet">
+          <button type="submit" data-test="submit-like" class="like-btn unretweet">
+            <span class="material-icons" data-test="retweet-icon">swap_horiz</span>
+          </button>
+        </form>
+      <% } %>
       <span data-test="retweet-count"><%= retweetCount %></span>
     </div>
   </div>
