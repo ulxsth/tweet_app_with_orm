@@ -11,6 +11,21 @@ export const createRetweet = async (retweetData: RetweetData): Promise<Retweet> 
   return retweet;
 }
 
+export const deleteRetweet = async (retweetData:RetweetData): Promise<RetweetData> => {
+  const prisma = databaseManager.getInstance();
+  const retweet = await prisma.retweet.delete({
+    where: {
+      /* eslint-disable camelcase */
+      userId_postId: {
+        userId: retweetData.userId,
+        postId: retweetData.postId,
+      },
+      /* eslint-enable camelcase */
+    }
+  });
+  return retweet;
+}
+
 export const getPostRetweetedCount = async (postId: number): Promise<number> => {
   const prisma = databaseManager.getInstance();
   const count = await prisma.retweet.count({
