@@ -28,5 +28,5 @@ retweetRouter.delete("/:postId/retweets", ensureAuthUser, async (req, res, next)
   }
 
   await deleteRetweet({ userId: currentUserId, postId: Number(postId) })
-  res.redirect(`posts/${postId}`)
+  res.redirect(`/posts/${postId}`)
 })
