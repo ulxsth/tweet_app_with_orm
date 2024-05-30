@@ -5,6 +5,11 @@ import {databaseManager} from "@/db/index";
 type UserProfileData = Partial<Pick<User, "name" | "email" | "imageName">>;
 type UserData = Pick<User, "name" | "email" | "password">;
 
+export type RetweetedPost = {
+  user: UserWithoutPassword,
+  createdAt: Date,
+  post: PostWithUser
+}
 export type UserWithoutPassword = Omit<User, "password">;
 
 export const selectUserColumnsWithoutPassword = {
@@ -119,39 +124,29 @@ export const getUserLikedPosts = async (
   return user;
 };
 
-export const getUserRetweetedPosts = async (userId:number): Promise<
-  | (UserWithoutPassword & {
-      retweets: Array<{
-        post: PostWithUser;
-      }>;
-    })
-  | null> => {
+export const getUserRetweetedPosts = async (userId: number): Promise<RetweetedPost[] | []> => {
   const prisma = databaseManager.getInstance();
-  const user = await prisma.user.findUnique({
+  const posts = await prisma.retweet.findMany({
     where: {
-      id: userId,
+      userId: userId,
     },
     select: {
-      ...selectUserColumnsWithoutPassword,
-      retweets: {
-        orderBy: {
-          post: {
-            createdAt: "desc",
-          },
-        },
+      user: {
         select: {
-          post: {
+          ...selectUserColumnsWithoutPassword,
+        },
+      },
+      createdAt: true,
+      post: {
+        select: {
+          id: true,
+          content: true,
+          userId: true,
+          createdAt: true,
+          updatedAt: true,
+          user: {
             select: {
-              id: true,
-              content: true,
-              userId: true,
-              createdAt: true,
-              updatedAt: true,
-              user: {
-                select: {
-                  ...selectUserColumnsWithoutPassword,
-                },
-              },
+              ...selectUserColumnsWithoutPassword,
             },
           },
         },
@@ -159,7 +154,7 @@ export const getUserRetweetedPosts = async (userId:number): Promise<
     },
   });
 
-  return user;
+  return posts;
 }
 
 export const getAllUsers = async (): Promise<UserWithoutPassword[]> => {
